@@ -26,17 +26,44 @@ A cloud-based image recognition web application that allows users to upload an i
 ## 5. Architecture (High-Level)
 User → Web App (Streamlit or Flask) → Azure Computer Vision → Results → Web App
 
-## 6. Technology Stack
+## 6 UI Layout Sketch (Text-Based Wireframe)
+ ---------------------------------------------------------
+|                 Azure Image Recognition App             |
+ ---------------------------------------------------------
+
+ [ Upload an Image ]
+ (Button to select JPG/PNG file)
+
+ ---------------------------------------------------------
+|                     Image Preview                       |
+|   [ Display the uploaded image here ]                   |
+ ---------------------------------------------------------
+
+ ---------------------------------------------------------
+|                     Analysis Results                    |
+|  - Description: "A person riding a bicycle..."          |
+|  - Tags: bicycle, person, street, outdoor               |
+|  - Objects Detected:                                    |
+|       • Person (confidence: 0.98)                       |
+|       • Bicycle (confidence: 0.95)                      |
+|  - Confidence Scores displayed clearly                  |
+ ---------------------------------------------------------
+
+ [ Re‑upload another image ]   [ Clear ]
+
+ Footer: "Powered by Azure Computer Vision"
+
+## 7. Technology Stack
 - Python 3.x
 - Streamlit or Flask (UI)
 - Azure Computer Vision (AI service)
 - Azure App Service (deployment)
 
-## 7. Folder Structure
+## 8. Folder Structure
 azure-image-recognition-app/ │ ├── app/ │   ├── main.py │   ├── azure_client.py │   ├── utils.py │   ├── static/ │   └── templates/ (if using Flask) │ ├── tests/ ├── docs/ │   ├── architecture.png │   └── ui-sketch.png │ ├── README.md ├── project-plan.md ├── requirements.txt ├── .gitignore └── LICENSE
 
 
-## 8. Development Timeline (March 2026)
+## 9. Development Timeline (March 2026)
 **Week 1:**  
 - Set up repo, folder structure, and environment  
 - Create Azure Computer Vision resource  
@@ -57,23 +84,22 @@ azure-image-recognition-app/ │ ├── app/ │   ├── main.py │   �
 - Final testing  
 - Update README and portfolio  
 
-## 9. Testing Approach
+## 10. Testing Approach
 - Manual testing with different images.
 - Validate API responses.
 - Fix errors as they appear.
 - Optional: add simple automated tests.
 
-## 10. Deployment Plan
+## 11. Deployment Plan
 - Push code to GitHub.
 - Deploy via Azure App Service (free tier).
 - Configure environment variables for API keys.
 - Test live version.
 
-## 11. Success Criteria
+## 12. Success Criteria
 - App runs locally and in Azure.
 - Users can upload images and receive AI results.
 - Clean, professional documentation.
 - Demonstrates cloud + AI + Python skills.
 - GitHub (version control)
 
-## 7. Folder Structure
