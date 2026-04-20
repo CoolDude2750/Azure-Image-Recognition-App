@@ -1,10 +1,14 @@
 from config import settings
-from vision_client import VisionClient
+from src.vision_client import VisionClient
 
 def main():
     client = VisionClient(settings.ENDPOINT, settings.KEY)
-    result = client.analyze("London_Bridge.jpg")
 
+    # Image Upload
+    image_path = input("Enter the path to an image: ")
+    result = client.analyze(image_path)
+
+   # Captions
     print("Caption:", result.caption.text)
 
     # Tags
