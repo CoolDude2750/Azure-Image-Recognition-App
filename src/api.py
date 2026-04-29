@@ -1,20 +1,19 @@
+from pathlib import Path
 from fastapi import FastAPI, UploadFile, File, Request
-from fastapi.templating import Jinja2Templates
+from starlette.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, JSONResponse
 from src.vision_client import VisionClient
 
 app = FastAPI()
 client = VisionClient()
 
-templates = Jinja2Templates(directory="src/templates/")
+BASE_DIR = Path(__file__).resolve().parent
+templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
 # Home page (upload form)
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    return templates.TemplateResponse(
-    "upload.html",
-    {"request": request}
-)
+    return templates.TemplateResponse(request=request, name="index.html")
 
 
 # UI upload handler (returns HTML with results)
@@ -28,14 +27,15 @@ async def upload_image(request: Request, file: UploadFile = File(...)):
     objects = [o["tags"][0] for o in result.objects.get("values", []) if o.get("tags")]
 
     return templates.TemplateResponse(
-        "upload.html",
-        {
-            "request": request,
+        request=request,
+        name="index.html",
+        context={
             "caption": caption,
             "tags": tags,
             "objects": objects
         }
     )
+
 
 # Optional: JSON API endpoint (useful for testing)
 @app.post("/analyze")

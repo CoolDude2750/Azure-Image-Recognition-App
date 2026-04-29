@@ -18,7 +18,7 @@ class VisionClient:
 
         result = self.client.analyze(
             image_data=image_data,
-            features=["Caption", "Tags", "Objects"]
+            visual_features=["Caption", "Tags", "Objects"]
         )
         return result
 
@@ -26,6 +26,6 @@ class VisionClient:
     def analyze_bytes(self, image_bytes: bytes):
         result = self.client.analyze(
             image_data=image_bytes,
-            features=["Caption", "Tags", "Objects"]
+            visual_features=["Caption", "Tags", "Objects"]
         )
         return result
