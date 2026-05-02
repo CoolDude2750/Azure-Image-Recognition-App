@@ -27,6 +27,17 @@
             margin-top: 10px;
         }
         button:hover { background-color: #0056b3; }
+        .results {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        .results ul {
+            margin: 0 0 0 20px;
+            padding: 0;
+        }
     </style>
 </head>
 <body>
@@ -36,5 +47,38 @@
         <input type="file" id="file" name="file" accept="image/*" required>
         <button type="submit">Analyze Image</button>
     </form>
+
+    {% if caption or tags or objects %}
+    <div class="results">
+        <h2>Analysis Results</h2>
+        {% if caption %}
+            <p><strong>Caption:</strong> {{ caption }}{% if caption_confidence is not none %} (confidence: {{ caption_confidence }}){% endif %}</p>
+        {% else %}
+            <p><strong>Caption:</strong> No caption detected.</p>
+        {% endif %}
+
+        {% if tags %}
+            <p><strong>Tags:</strong></p>
+            <ul>
+                {% for tag in tags %}
+                    <li>{{ tag.name }}{% if tag.confidence is not none %} (confidence: {{ tag.confidence }}){% endif %}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p><strong>Tags:</strong> No tags detected.</p>
+        {% endif %}
+
+        {% if objects %}
+            <p><strong>Objects:</strong></p>
+            <ul>
+                {% for obj in objects %}
+                    <li>{{ obj.name }}{% if obj.confidence is not none %} (confidence: {{ obj.confidence }}){% endif %}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p><strong>Objects:</strong> No objects detected.</p>
+        {% endif %}
+    </div>
+    {% endif %}
 </body>
 </html>

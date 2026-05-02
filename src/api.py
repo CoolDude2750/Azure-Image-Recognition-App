@@ -23,14 +23,30 @@ async def upload_image(request: Request, file: UploadFile = File(...)):
     result = client.analyze_bytes(image_bytes)
 
     caption = result.caption.text if result.caption else None
-    tags = [t["name"] for t in result.tags.get("values", [])]
-    objects = [o["tags"][0] for o in result.objects.get("values", []) if o.get("tags")]
+    caption_confidence = getattr(result.caption, "confidence", None) if result.caption else None
+    tags = [
+        {
+            "name": t.get("name"),
+            "confidence": round(t.get("confidence", 0), 2)
+        }
+        for t in result.tags.get("values", []) if t.get("name")
+    ]
+    objects = []
+    for o in result.objects.get("values", []):
+        if not o.get("tags"):
+            continue
+        first_tag = o["tags"][0]
+        obj_name = first_tag.get("name")
+        obj_confidence = round(first_tag.get("confidence", 0), 2)
+        if obj_name:
+            objects.append({"name": obj_name, "confidence": obj_confidence})
 
     return templates.TemplateResponse(
         request=request,
         name="index.html",
         context={
             "caption": caption,
+            "caption_confidence": caption_confidence,
             "tags": tags,
             "objects": objects
         }
@@ -44,11 +60,27 @@ async def analyze_image(file: UploadFile = File(...)):
     result = client.analyze_bytes(image_bytes)
 
     caption = result.caption.text if result.caption else None
-    tags = [t["name"] for t in result.tags.get("values", [])]
-    objects = [o["tags"][0] for o in result.objects.get("values", []) if o.get("tags")]
+    caption_confidence = getattr(result.caption, "confidence", None) if result.caption else None
+    tags = [
+        {
+            "name": t.get("name"),
+            "confidence": round(t.get("confidence", 0), 2)
+        }
+        for t in result.tags.get("values", []) if t.get("name")
+    ]
+    objects = []
+    for o in result.objects.get("values", []):
+        if not o.get("tags"):
+            continue
+        first_tag = o["tags"][0]
+        obj_name = first_tag.get("name")
+        obj_confidence = round(first_tag.get("confidence", 0), 2)
+        if obj_name:
+            objects.append({"name": obj_name, "confidence": obj_confidence})
 
     return JSONResponse({
         "caption": caption,
+        "caption_confidence": caption_confidence,
         "tags": tags,
         "objects": objects
     })
