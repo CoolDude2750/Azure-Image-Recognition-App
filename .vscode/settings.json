@@ -1,3 +1,5 @@
 {
-    "python-envs.defaultEnvManager": "ms-python.python:system"
+    "python-envs.defaultEnvManager": "ms-python.python:system",
+    "appService.defaultWebAppToDeploy": "/subscriptions/ab9aa736-9246-4cdf-b9bf-6169d79c3592/resourceGroups/image-recognition-rg/providers/Microsoft.Web/sites/azure-vision-simon",
+    "appService.deploySubpath": "."
 }

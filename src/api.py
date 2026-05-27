@@ -1,11 +1,21 @@
+import logging
 from pathlib import Path
 from fastapi import FastAPI, UploadFile, File, Request
 from starlette.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, JSONResponse
 from src.vision_client import VisionClient
 
+# Configure logging for diagnostics
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 app = FastAPI()
-client = VisionClient()
+try:
+    client = VisionClient()
+    logger.info("VisionClient initialized successfully")
+except ValueError as e:
+    logger.error(f"Failed to initialize VisionClient: {e}")
+    client = None
 
 BASE_DIR = Path(__file__).resolve().parent
 templates = Jinja2Templates(directory=BASE_DIR / "templates")
@@ -19,8 +29,23 @@ async def home(request: Request):
 # UI upload handler (returns HTML with results)
 @app.post("/upload")
 async def upload_image(request: Request, file: UploadFile = File(...)):
-    image_bytes = await file.read()
-    result = client.analyze_bytes(image_bytes)
+    if not client:
+        return templates.TemplateResponse(
+            request=request,
+            name="index.html",
+            context={"error": "Vision client not initialized. Check VISION_ENDPOINT and VISION_KEY."}
+        )
+    
+    try:
+        image_bytes = await file.read()
+        result = client.analyze_bytes(image_bytes)
+    except Exception as e:
+        logger.error(f"Error analyzing image: {type(e).__name__}: {e}")
+        return templates.TemplateResponse(
+            request=request,
+            name="index.html",
+            context={"error": f"Failed to analyze image: {str(e)}"}
+        )
 
     caption = result.caption.text if result.caption else None
     caption_confidence = getattr(result.caption, "confidence", None) if result.caption else None
