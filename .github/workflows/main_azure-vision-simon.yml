@@ -38,6 +38,8 @@ jobs:
           path: |
             src/
             requirements.txt
+            app.py
+            startup.sh
 
   deploy:
     runs-on: ubuntu-latest
@@ -56,6 +58,5 @@ jobs:
           slot-name: Production
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B5A089AE477F432CB26DCCC7451B6A47 }}
           package: .
-          startup-command: 'gunicorn -k uvicorn.workers.UvicornWorker src.api:app'
 
 
