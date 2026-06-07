@@ -13,8 +13,8 @@ app = FastAPI()
 try:
     client = VisionClient()
     logger.info("VisionClient initialized successfully")
-except ValueError as e:
-    logger.error(f"Failed to initialize VisionClient: {e}")
+except Exception as e:
+    logger.error(f"Failed to initialize VisionClient: {type(e).__name__}: {e}")
     client = None
 
 BASE_DIR = Path(__file__).resolve().parent
