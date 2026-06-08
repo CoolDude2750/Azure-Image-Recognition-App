@@ -39,7 +39,7 @@ jobs:
             src/
             requirements.txt
             app.py
-            startup.sh
+            .deployment
 
   deploy:
     runs-on: ubuntu-latest
