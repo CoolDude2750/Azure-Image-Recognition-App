@@ -63,7 +63,7 @@ User → Web App (Streamlit or Flask) → Azure Computer Vision → Results → 
 azure-image-recognition-app/ │ ├── app/ │   ├── main.py │   ├── azure_client.py │   ├── utils.py │   ├── static/ │   └── templates/ (if using Flask) │ ├── tests/ ├── docs/ │   ├── architecture.png │   └── ui-sketch.png │ ├── README.md ├── project-plan.md ├── requirements.txt ├── .gitignore └── LICENSE
 
 
-## 9. Development Timeline (March 2026)
+## 9. Development Timeline (April 2026)
 **Week 1:**  
 - Set up repo, folder structure, and environment  
 - Create Azure Computer Vision resource  
