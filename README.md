@@ -33,7 +33,6 @@ This project demonstrates end-to-end expertise in AI engineering, cloud architec
 
 ```
 .
-├── app.py                 # Application entry point
 ├── requirements.txt       # Python dependencies
 ├── src/
 │   ├── api.py            # FastAPI routes and endpoints
@@ -77,16 +76,21 @@ This project demonstrates end-to-end expertise in AI engineering, cloud architec
 4. Configure Azure credentials:
    Create a `.env` file in the project root:
    ```
-   AZURE_VISION_KEY=your_api_key
-   AZURE_VISION_ENDPOINT=your_api_endpoint
+   VISION_KEY=your_api_key
+   VISION_ENDPOINT=your_api_endpoint
    ```
 
-5. Run the application:
+5. Run the application locally:
    ```bash
-   python app.py
+   uvicorn src.api:app --reload
    ```
 
    The application will be available at `http://localhost:8000`
+
+To use the command-line client instead:
+```bash
+python -m src.main path/to/image.jpg
+```
 
 ## Usage
 
@@ -104,18 +108,18 @@ This project demonstrates end-to-end expertise in AI engineering, cloud architec
 
 **Analyze Image**
 ```
-POST /api/analyze
+POST /analyze
 Content-Type: multipart/form-data
 
 Parameters:
-  - image: Image file (JPEG, PNG, BMP, GIF)
+   - file: Image file (JPEG, PNG, BMP, GIF, or WEBP; maximum 10 MB)
 
 Response:
 {
-  "description": "string",
-  "tags": ["tag1", "tag2"],
+   "caption": "string",
+   "caption_confidence": 0.95,
+   "tags": [{"name": "tag1", "confidence": 0.95}],
   "objects": [{"name": "object", "confidence": 0.95}],
-  "text": "detected text if present"
 }
 ```
 
@@ -128,8 +132,13 @@ pytest tests/
 
 ## Deployment
 
-The application is designed for Azure App Service deployment. For detailed deployment 
-instructions, see `project-plan.md`.
+The application is designed for Azure App Service deployment. Use this startup command:
+
+```bash
+gunicorn --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 src.api:app
+```
+
+Configure `VISION_ENDPOINT` and `VISION_KEY` as App Service application settings before testing the live app.
 
 ## Live Demo
 
