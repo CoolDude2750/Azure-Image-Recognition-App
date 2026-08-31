@@ -118,13 +118,13 @@ VISION_ENDPOINT=https://<your-resource-name>.cognitiveservices.azure.com/
 VISION_KEY=<your-azure-vision-key>
 ```
 
-5. Run the app locally:
+5. Start the app locally:
 
 ```bash
 uvicorn src.api:app --reload
 ```
 
-Then open the browser at http://localhost:8000
+Then open the app in a browser at http://localhost:8000 while the server is running.
 
 ## Usage
 
